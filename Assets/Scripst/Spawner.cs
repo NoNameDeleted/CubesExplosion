@@ -17,25 +17,22 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    public List<GameObject> SpawnParts(GameObject template)
+    public List<Cube> SpawnParts(Cube template)
     {
         int minCubeParts = 2;
         int maxCubeParts = 6;
-        float scaleMultiplier = 0.5f;
-        float chaseMultiplier = 0.5f;
+        
+        List<Cube> parts = new List<Cube>();
 
-        List<GameObject> parts = new List<GameObject>();
+        int partsAmount = UnityEngine.Random.Range(minCubeParts, maxCubeParts + 1);
 
-        for (int i = 0; i < UnityEngine.Random.Range(minCubeParts, maxCubeParts + 1); i++)
+        for (int i = 0; i < partsAmount; i++)
         {
             Vector3 position = transform.position + UnityEngine.Random.insideUnitSphere;
-            GameObject newObject = GameObject.Instantiate(template, position, new Quaternion());
-            
-            newObject.GetComponent<Renderer>().material.color = UnityEngine.Random.ColorHSV();
-            newObject.transform.localScale = transform.localScale * scaleMultiplier;
-            newObject.GetComponent<Spawner>().Chanse = _chanse * chaseMultiplier;
+            Cube newCube = GameObject.Instantiate(template, position, new Quaternion());
+            newCube.Init(transform.localScale, _chanse);
 
-            parts.Add(newObject);
+            parts.Add(newCube);
         }
 
         return parts;

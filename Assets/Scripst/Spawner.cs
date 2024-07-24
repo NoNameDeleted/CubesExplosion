@@ -1,20 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Cube))]
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private float _chanse = 100;
+    private Cube _cube;
 
-    public float Chanse
+    private void Awake()
     {
-        get { return _chanse; }
-        set
-        {
-            int minChanse = 0;
-            int maxChanse = 100;
-
-            _chanse = Mathf.Clamp(value, minChanse, maxChanse);
-        }
+        _cube = GetComponent<Cube>();
     }
 
     public List<Cube> SpawnParts(Cube template)
@@ -30,7 +24,7 @@ public class Spawner : MonoBehaviour
         {
             Vector3 position = transform.position + UnityEngine.Random.insideUnitSphere;
             Cube newCube = GameObject.Instantiate(template, position, new Quaternion());
-            newCube.Init(transform.localScale, _chanse);
+            newCube.Init(transform.localScale, _cube.Chanse, _cube.ExplosionRadius, _cube.ExplosionForce);
 
             parts.Add(newCube);
         }

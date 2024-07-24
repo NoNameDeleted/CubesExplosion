@@ -14,4 +14,14 @@ public class Exploader : MonoBehaviour
             part.AddExplosionForce(_force, transform.position, _radius, _upwardsModifier);
         }
     }
+
+    public void Exploid(List<Rigidbody> parts, float force, float radius)
+    {
+        foreach (Rigidbody part in parts)
+        {
+            Debug.Log(part.position);
+            float distance = Vector3.Distance(part.position, transform.position);
+            part.AddExplosionForce(force / distance, transform.position, radius, _upwardsModifier);
+        }
+    }
 }

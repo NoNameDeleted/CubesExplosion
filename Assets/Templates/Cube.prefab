@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b69f80df7a0a6250dbd204332e636b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _chanse: 100
 --- !u!114 &1832034895822964427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,8 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5164c646e566c4d16977db5f45b8a336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: 20
-  _force: 500
+  _radius: 5
+  _force: 100
   _upwardsModifier: 1
 --- !u!114 &9070447562312123720
 MonoBehaviour:
@@ -175,4 +176,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 515a9f4d6fd7e4b1cb2b964ee3c44058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chanse: 100

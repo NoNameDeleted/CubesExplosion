@@ -5,16 +5,10 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
     [SerializeField] private float _chanse = 100f;
-    [SerializeField] private float _explosionRadius = 5f;
-    [SerializeField] private float _explosionForce = 100f;
 
     private Spawner _spawner;
     private Exploader _exploader;
     private Renderer _renderer;
-    private List<Rigidbody> _createdParts;
-
-    public float ExplosionRadius => _explosionRadius;
-    public float ExplosionForce => _explosionForce;
 
     public float Chanse
     {
@@ -35,18 +29,19 @@ public class Cube : MonoBehaviour
         _renderer = GetComponent<Renderer>();
     }
 
-    public void Init(Vector3 scale, float chanse, float radius, float force)
+    public void Init(Cube cube)
     {
         float chaseMultiplier = 0.5f;
         float scaleMultiplier = 0.5f;
-        float raiusMultiplier = 2;
-        float forceMultiplier = 2;
+        
 
-        transform.localScale = scale * scaleMultiplier;
+        transform.localScale = cube.transform.localScale * scaleMultiplier;
         _renderer.material.color = UnityEngine.Random.ColorHSV();
-        Chanse = chanse * chaseMultiplier;
-        _explosionRadius = radius * raiusMultiplier;
-        _explosionForce = force * forceMultiplier;
+        Chanse = cube.Chanse * chaseMultiplier;
+
+        if (cube.TryGetComponent<Exploader>(out Exploader exploader))
+            _exploader.Init(exploader);
+        
     }
 
     private void OnMouseDown() 
@@ -61,24 +56,23 @@ public class Cube : MonoBehaviour
 
             foreach (Cube part in parts)
             {
-                bodies.Add(part.GetComponent<Rigidbody>());
+                if (part.TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
+                    bodies.Add(rigidbody);
             }
 
            _exploader.Exploid(bodies);
         }
         else
         {
-            Collider[] collidersAround = Physics.OverlapSphere(transform.position, _explosionRadius);
+            Collider[] collidersAround = Physics.OverlapSphere(transform.position, _exploader.Radius);
 
             foreach (Collider collider in collidersAround)
             {
                 if (collider.TryGetComponent<Rigidbody>(out Rigidbody body) && collider.gameObject != this.gameObject)
-                {
                     bodies.Add(body);
-                }
             }
 
-            _exploader.Exploid(bodies, ExplosionForce, ExplosionRadius);
+            _exploader.Exploid(bodies);
         }
     }
 }
